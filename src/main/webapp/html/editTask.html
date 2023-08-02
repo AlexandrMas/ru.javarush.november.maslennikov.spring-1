@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Edit Task</title>
+    <link href="/style/main.css" rel="stylesheet">
+</head>
+<body>
+<table>
+    <thead>
+    <tr>
+        <th>Enter task description</th>
+        <th>Enter task status</th>
+    </tr>
+    </thead>
+    <tbody>
+    <tr>
+        <form th:method="PATCH" th:action="@{/{id}(id=${task.id})}" th:object="${task}" id="editTask">
+            <th>
+                <input type="text" th:field="*{description}"/>
+            </th>
+            <th>
+                <select name="status">
+                    <option th:each="status : ${T(ru.javarush.november.maslennikov.spring1.domain.Status).values()}"
+                            th:value="${status}" th:text="${status}"></option>
+                </select>
+            </th>
+        </form>
+    </tr>
+    </tbody>
+</table>
+<br>
+<button type="submit" form="editTask">Edit task</button>
+</body>
+</html>
