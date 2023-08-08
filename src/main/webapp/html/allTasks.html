@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Tasks</title>
+    <link href="/style/main.css" rel="stylesheet">
+</head>
+<body>
+<table>
+    <thead>
+    <tr>
+        <th>ID</th>
+        <th>Description</th>
+        <th>Status</th>
+    </tr>
+    </thead>
+    <tbody>
+    <tr th:each="task,number : ${tasks}">
+        <td th:text="${task.id}"/>
+        <td th:text="${task.description}"/>
+        <td th:text="${task.status}"/>
+        <td>
+            <form th:method="GET" th:action="@{/{id}/edit(id=${task.id})}">
+                <button type="submit">Edit</button>
+            </form>
+        </td>
+        <td>
+            <form th:method="DELETE" th:action="@{/{id}/(id=${task.id})}">
+                <button type="submit">Delete</button>
+            </form>
+        </td>
+    </tr>
+    </tbody>
+</table>
+<br>
+<table>
+    <tr>
+        <form th:method="POST" th:action="@{/add}" th:object="${newTask}">
+            <th>Add new task</th>
+
+            <th>
+                <input type="text" th:field="*{description}" placeholder="Enter description">
+            </th>
+
+            <th>
+                <select name="status">
+                    <option th:each="status : ${T(ru.javarush.november.maslennikov.spring1.domain.Status).values()}"
+                            th:value="${status}" th:text="${status}"></option>
+                </select>
+            </th>
+
+            <th>
+                <button type="submit">Save</button>
+            </th>
+        </form>
+    </tr>
+</table>
+<br>
+<br>
+<h2>
+    <button th:each="pageNumber : ${pageNumbers}" class="button-page">
+        <a th:href="@{/(page=${pageNumber}, limit=10)}" th:text="${pageNumber}"
+           th:classappend="${pageNumber == currentPage? 'active_page':''}"></a>
+    </button>
+</h2>
+</body>
+</html>
